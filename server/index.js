@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -27,13 +26,6 @@ app.use('/api/notes', noteRouter);
 
 app.get('/', (req, res) => {
   res.send('Selamlar!');
-});
-
-// not ekleme
-app.post('/api/notes', (req, res) => {
-  const newNote = { ...req.body, id: notes.length + 1 };
-  notes.push(newNote);
-  res.status(201).json(newNote);
 });
 
 app.listen(port, () => {

@@ -3,7 +3,7 @@ import NoteCard from './NoteCard';
 import CategorySidebar from './CategorySidebar';
 import Header from './Header';
 
-const AllNotesPage = ({ notes, onAddNote }) => {
+const AllNotesPage = ({ notes, onAddNote, onEditNote, onDeleteNote }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   // Filtrelenmiş notları tarihine göre sıralayın (yeni tarihler önce)
@@ -29,7 +29,12 @@ const AllNotesPage = ({ notes, onAddNote }) => {
           />
           <div className="flex-1 p-6 overflow-y-auto">
             {sortedNotes.map(note => (
-              <NoteCard key={note.id} note={note} />
+              <NoteCard 
+                key={note.id} 
+                note={note} 
+                onEdit={onEditNote} 
+                onDelete={onDeleteNote} 
+              />
             ))}
           </div>
         </div>

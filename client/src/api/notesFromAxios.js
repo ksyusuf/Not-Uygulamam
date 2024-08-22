@@ -1,4 +1,3 @@
-// src/api/notesFromAxios.js
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/notes';
@@ -21,6 +20,28 @@ export const addNote = async (note) => {
     return response.data;
   } catch (error) {
     console.error('Error adding note:', error);
+    throw error;
+  }
+};
+
+// update için api çağrısı
+export const updateNote = async (updatedNote) => {
+  try {
+    const response = await axios.patch(`${API_URL}/${updatedNote._id}`, updatedNote);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating note:', error);
+    throw error;
+  }
+};
+
+// delete için api çağrısı
+export const deleteNote = async (note) => {
+  try {
+    console.log(note);
+    await axios.delete(`${API_URL}/${note._id}`);
+  } catch (error) {
+    console.error('Error deleting note:', error);
     throw error;
   }
 };

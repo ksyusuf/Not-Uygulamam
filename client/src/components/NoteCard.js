@@ -14,15 +14,29 @@ const formatDateTime = (dateString) => {
   return date.toLocaleString(undefined, options);
 };
 
-const NoteCard = ({ note }) => (
-  <div className="border rounded-lg p-6 mb-4 shadow-lg bg-white">
-    <div className="mt-4 flex justify-between text-sm text-gray-500">
+const NoteCard = ({ note, onEdit, onDelete }) => (
+  <div className="border rounded-lg p-6 mb-4 shadow-lg bg-white hover:shadow-2xl transition-shadow duration-300">
+    <div className="flex justify-between items-center">
       <h2 className="text-2xl font-semibold text-gray-800">{note.header}</h2>
-      <span>{note.category}</span>
+      <span className="text-sm text-gray-500 bg-gray-200 rounded-full px-3 py-1">{note.category}</span>
     </div>
-    <p className="mt-2 text-gray-700">{note.content}</p>
-    <div className="mt-4 flex justify-between text-sm text-gray-500">
+    <p className="mt-4 text-gray-700 leading-relaxed">{note.content}</p>
+    <div className="mt-4 flex justify-between items-center text-sm text-gray-500">
       <span>{formatDateTime(note.date)}</span>
+      <div className="flex space-x-2">
+        <button 
+          onClick={() => onEdit(note)} 
+          className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+        >
+          Düzenle
+        </button>
+        <button 
+          onClick={() => onDelete(note)} 
+          className="text-red-600 hover:text-red-800 transition-colors duration-200"
+        >
+          Sil
+        </button>
+      </div>
     </div>
   </div>
 );
