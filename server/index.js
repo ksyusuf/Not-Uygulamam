@@ -1,32 +1,41 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
-const port = 5000; // veya istediğin başka bir port
-const noteRoutes = require('./routes/notes');
-// CRUD işlemlerinin yapıldığı routing kısmına yönlendirir.
+const port = 5000;
 
-app.use('/api/notes', noteRoutes);
+// MongoDB bağlantı URI'si
+const mongoURI = 'mongodb://localhost:27017/notlar';
+
+// MongoDB bağlantısı
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// MongoDB bağlantısı
-mongoose.connect('mongodb://localhost:27017/notlar', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('MongoDB connection error:', err));
+// Routes
+const noteRouter = require('./routes/notes');
+// bu şekilde bir ana dizin altında yapılabilecek işlemlerin olduğu bir url oluşturduk.
+app.use('/api/notes', noteRouter);
+// bu dizinin ana erişim kısmını düzenledik
+// bu dizin altındaki route'lara erişim sağlayıp işlem yapabileceğiz.
 
-// Basit bir route
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Selamlar!');
 });
 
-// API endpoint'leri burada tanımlanacak
+// not ekleme
+app.post('/api/notes', (req, res) => {
+  const newNote = { ...req.body, id: notes.length + 1 };
+  notes.push(newNote);
+  res.status(201).json(newNote);
+});
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
-

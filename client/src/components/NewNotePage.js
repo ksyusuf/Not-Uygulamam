@@ -1,0 +1,56 @@
+import React, { useState } from 'react';
+
+// Yeni not ekleme sayfası bileşeni
+const NewNotePage = ({ onSave, categories }) => {
+  const [header, setHeader] = useState('');
+  const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+
+  const handleSave = () => {
+    if (header && content && category) {
+      // Şu anki tarih ve saat bilgisini al
+      const now = new Date().toISOString(); // ISO formatında tarih ve saat
+      onSave({ header, content, category, date: now });
+    }
+  };
+
+  return (
+    <div className="p-6 bg-gray-50 h-screen">
+      <h1 className="text-3xl font-bold mb-6">Yeni Not Ekle</h1>
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+        <input
+          type="text"
+          placeholder="Başlık"
+          className="border border-gray-300 rounded-lg p-3 mb-4 w-full"
+          value={header}
+          onChange={(e) => setHeader(e.target.value)}
+        />
+        <textarea
+          placeholder="İçerik"
+          className="border border-gray-300 rounded-lg p-3 mb-4 w-full"
+          rows="6"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <select
+          className="border border-gray-300 rounded-lg p-3 mb-6 w-full"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="" disabled>Seçilen Kategori</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+        <button
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-200"
+          onClick={handleSave}
+        >
+          Yeni Not Ekle
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default NewNotePage;

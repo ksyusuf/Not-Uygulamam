@@ -15,9 +15,10 @@ router.get('/', async (req, res) => {
 // POST: Yeni not ekle
 router.post('/', async (req, res) => {
   const note = new Note({
-    title: req.body.title,
+    header: req.body.header,
     content: req.body.content,
-    category: req.body.category
+    category: req.body.category,
+    date: req.body.date
   });
 
   try {
@@ -35,8 +36,8 @@ router.get('/:id', getNote, (req, res) => {
 
 // PATCH: Notu güncelle
 router.patch('/:id', getNote, async (req, res) => {
-  if (req.body.title != null) {
-    res.note.title = req.body.title;
+  if (req.body.header != null) {
+    res.note.header = req.body.header;
   }
   if (req.body.content != null) {
     res.note.content = req.body.content;
