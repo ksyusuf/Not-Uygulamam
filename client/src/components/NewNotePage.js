@@ -39,7 +39,7 @@ const NewNotePage = ({ onSave, categories }) => {
         >
           <option value="" disabled>Seçilen Kategori</option>
           {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat._id} value={cat.name}>{cat.name}</option>
           ))}
         </select>
         <button

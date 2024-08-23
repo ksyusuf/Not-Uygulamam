@@ -7,14 +7,16 @@ import { fetchNotes, addNote, updateNote, deleteNote } from './api/notesFromAxio
 const App = () => {
   const [page, setPage] = useState('all');
   const [notesData, setNotesData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentNote, setCurrentNote] = useState(null);
 
   useEffect(() => {
     const loadNotes = async () => {
       try {
-        const notes = await fetchNotes();
-        setNotesData(notes);
+        const Alldata = await fetchNotes();
+        setNotesData(Alldata.notes);
+        setCategoriesData(Alldata.categories);
       } catch (error) {
         console.error('Failed to load notes:', error);
       } finally {
@@ -51,8 +53,9 @@ const App = () => {
       setNotesData(notesData.map(note => note.id === updated.id ? updated : note));
       // düzenlenmiş veriyi ana sayfaya gönderir. bunu yapmazsan sayfayı yenilemeden
       // güncellediğin notun güncel halini göremezsin.
-      const notes = await fetchNotes();
-      setNotesData(notes);
+      const Alldata = await fetchNotes();
+      setNotesData(Alldata.notes);
+      setCategoriesData(Alldata.categories);
       // tüm notları yeniden çekmeliyiz. yoksa kategori isimleri eksik gelir.
       setPage('all');
     } catch (error) {
@@ -72,7 +75,7 @@ const App = () => {
     }
   };
 
-  const categories = [...new Set(notesData.map(note => note.category))].sort();
+  const Allcategories = categoriesData.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className="App">
@@ -80,15 +83,16 @@ const App = () => {
         <div>Loading...</div>
       ) : page === 'all' ? (
         <AllNotesPage 
-          notes={notesData} 
+          notes={notesData}
+          categories={Allcategories}
           onAddNote={handleAddNoteClick} 
           onEditNote={handleEditNoteClick} 
           onDeleteNote={handleDeleteNote} 
         />
       ) : page === 'new' ? (
-        <NewNotePage onSave={handleSaveNote} categories={categories} />
+        <NewNotePage onSave={handleSaveNote} categories={Allcategories} />
       ) : page === 'edit' && currentNote ? (
-        <EditNotePage note={currentNote} onUpdate={handleUpdateNote} categories={categories} />
+        <EditNotePage note={currentNote} onUpdate={handleUpdateNote} categories={Allcategories} />
       ) : null}
     </div>
   );

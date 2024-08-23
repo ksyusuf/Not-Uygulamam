@@ -9,7 +9,7 @@ const EditNotePage = ({ note, onUpdate, categories }) => {
     if (note) {
       setHeader(note.header);
       setContent(note.content);
-      setCategory(note.category);
+      setCategory(note.category.name);
     }
   }, [note]);
 
@@ -45,7 +45,7 @@ const EditNotePage = ({ note, onUpdate, categories }) => {
         >
           <option value="" disabled>Seçilen Kategori</option>
           {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat._id} value={cat.name}>{cat.name}</option>
           ))}
         </select>
         <button

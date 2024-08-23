@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
+const Category = require('../models/Category');
 
 // GET: Tüm notları al
 router.get('/', async (req, res) => {
   try {
-    const notes = await Note.find();
-    res.json(notes);
+    const notes = await Note.find().populate('category', 'name');
+    // bununla birlikte, ikincil anahtar olarak tutulan verinin ilgil tablodaki
+    // bu örnek için 'name' olan etiket değerini alabiliyoruz.
+    const categories = await Category.find(); // kategorileri sidebar için gönderiyorum.
+    res.json({notes, categories});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -14,10 +18,12 @@ router.get('/', async (req, res) => {
 
 // POST: Yeni not ekle
 router.post('/', async (req, res) => {
+  const categories = await Category.find(); 
   const note = new Note({
     header: req.body.header,
     content: req.body.content,
-    category: req.body.category,
+    // not yüklerken de veritabanından ilgili kategorinin varlığını kontrol ediyorum.
+    category: categories.find(category => category.name === req.body.category),
     date: req.body.date
   });
 
@@ -43,7 +49,9 @@ router.patch('/:id', getNote, async (req, res) => {
     res.note.content = req.body.content;
   }
   if (req.body.category != null) {
-    res.note.category = req.body.category;
+    const categories = await Category.find(); 
+    // notu güncellerken de kategoriyi veritabanından çekerek kontrol ile iletiyorum.
+    res.note.category = categories.find(category => category.name === req.body.category);
   }
 
   try {
