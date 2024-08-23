@@ -53,10 +53,7 @@ const App = () => {
       setNotesData(notesData.map(note => note.id === updated.id ? updated : note));
       // düzenlenmiş veriyi ana sayfaya gönderir. bunu yapmazsan sayfayı yenilemeden
       // güncellediğin notun güncel halini göremezsin.
-      const Alldata = await fetchNotes();
-      setNotesData(Alldata.notes);
-      setCategoriesData(Alldata.categories);
-      // tüm notları yeniden çekmeliyiz. yoksa kategori isimleri eksik gelir.
+      // hem bu şekilde yeniden tüm notları çekmeye gerek kalmaz.
       setPage('all');
     } catch (error) {
       console.error('Failed to update note:', error);
@@ -75,6 +72,7 @@ const App = () => {
     }
   };
 
+  // tüm kategorileri id değerleri ile çekmiştik, şimdi alfabetik sıralayıp öyle paylaşıyoruz
   const Allcategories = categoriesData.sort((a, b) => a.name.localeCompare(b.name));
 
   return (

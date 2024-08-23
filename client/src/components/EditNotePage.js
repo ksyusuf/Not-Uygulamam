@@ -6,6 +6,8 @@ const EditNotePage = ({ note, onUpdate, categories }) => {
   const [category, setCategory] = useState('');
 
   useEffect(() => {
+    // sayfa yüklendiğinde gelen note nesnesinin içeriğini çekmeliyiz.
+    // bu şekilde üzerinde değişiklik yapılmadan önceki halini görüntüleyebiliriz.
     if (note) {
       setHeader(note.header);
       setContent(note.content);

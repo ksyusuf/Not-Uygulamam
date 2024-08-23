@@ -23,6 +23,9 @@ const AllNotesPage = ({ notes, categories, onAddNote, onEditNote, onDeleteNote }
           <CategorySidebar
             categories={categories}
             selectedCategory={selectedCategory}
+            // seçilmiş kategoriyi tekrardan sidebar'a göndermemizin sebebi
+            // seçili olan kategorinin sidebar üzerinde renginin koyulaştırılıp
+            // mevcutta hangi kategori sayfasında olduğunun anlaşılması içindir.
             onSelectCategory={setSelectedCategory}
           />
           <div className="flex-1 p-6 overflow-y-auto">

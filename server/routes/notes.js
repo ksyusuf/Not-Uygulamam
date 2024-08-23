@@ -35,6 +35,22 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Middleware: ID'ye göre notu bul
+async function getNote (req, res, next) {
+  let note;
+  try {
+    note = await Note.findById(req.params.id);
+    if (note == null) {
+      return res.status(404).json({ message: 'Cannot find note' });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+
+  res.note = note;
+  next();
+}
+
 // GET: ID'ye göre not al
 router.get('/:id', getNote, (req, res) => {
   res.json(res.note);
@@ -42,18 +58,12 @@ router.get('/:id', getNote, (req, res) => {
 
 // PATCH: Notu güncelle
 router.patch('/:id', getNote, async (req, res) => {
-  if (req.body.header != null) {
-    res.note.header = req.body.header;
-  }
-  if (req.body.content != null) {
-    res.note.content = req.body.content;
-  }
-  if (req.body.category != null) {
-    const categories = await Category.find(); 
-    // notu güncellerken de kategoriyi veritabanından çekerek kontrol ile iletiyorum.
-    res.note.category = categories.find(category => category.name === req.body.category);
-  }
-
+  // göndereceğimiz veriye gelen istekleri yerleştiriyoruz.
+  res.note.header = req.body.header;
+  res.note.content = req.body.content;
+  const categories = await Category.find(); 
+  // notu güncellerken de kategoriyi veritabanından çekerek kontrol ile iletiyorum.
+  res.note.category = categories.find(category => category.name === req.body.category);
   try {
     const updatedNote = await res.note.save();
     res.json(updatedNote);
@@ -71,21 +81,5 @@ router.delete('/:id', getNote, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Middleware: ID'ye göre notu bul
-async function getNote (req, res, next) {
-  let note;
-  try {
-    note = await Note.findById(req.params.id);
-    if (note == null) {
-      return res.status(404).json({ message: 'Cannot find note' });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-
-  res.note = note;
-  next();
-}
 
 module.exports = router;
