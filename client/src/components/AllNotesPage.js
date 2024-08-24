@@ -13,7 +13,8 @@ const AllNotesPage = ({ notes, categories, onAddNote, onEditNote, onDeleteNote }
     : notes.filter(note => note.category.name === selectedCategory);
 
   // Notları tarihine göre azalan sırada sıralama
-  const sortedNotes = filteredNotes.sort((a, b) => new Date(b.date) - new Date(a.date));
+  // redux değişmezlik kuralından dolayı değişkeni değiştirmeden kopyası ile işlem yapıyoruz.
+  const sortedNotes = [...filteredNotes].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
     <div className="flex h-screen bg-gray-50">
