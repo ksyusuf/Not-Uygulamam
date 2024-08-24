@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addNote } from '../redux/DataActions';
 
 // Yeni not ekleme sayfası bileşeni
 const NewNotePage = ({ onSave, categories }) => {
   const [header, setHeader] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
+  const dispatch = useDispatch();
 
   const handleSave = () => {
     if (header && content && category) {
       // Şu anki tarih ve saat bilgisini al
       const now = new Date().toISOString(); // ISO formatında tarih ve saat
-      onSave({ header, content, category, date: now });
+      dispatch(addNote({ header, content, category, date: now }));
+      onSave();
     }
   };
 
