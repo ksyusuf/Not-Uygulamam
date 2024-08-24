@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { editNote } from '../redux/DataActions';
 
 const EditNotePage = ({ note, onUpdate, categories }) => {
   const [header, setHeader] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // sayfa yüklendiğinde gelen note nesnesinin içeriğini çekmeliyiz.
@@ -18,7 +21,8 @@ const EditNotePage = ({ note, onUpdate, categories }) => {
   const handleUpdate = () => {
     if (header && content && category) {
       const updatedNote = { ...note, header, content, category };
-      onUpdate(updatedNote); // API çağrısını üst bileşenden yap
+      dispatch(editNote(updatedNote));
+      onUpdate();
     }
   };
 

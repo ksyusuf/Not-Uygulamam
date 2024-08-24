@@ -9,7 +9,7 @@ const notesReducer = createSlice({
   name: 'notes',
   initialState,
   reducers: {
-    setNotes: (state, action) => {
+    getNotes: (state, action) => {
       state.notes = action.payload;
     },
     addNoteToState: (state, action) => {
@@ -25,11 +25,10 @@ const notesReducer = createSlice({
       // ilgili not silindiği için server tarafından response olarak not değil mesaj döner.
       // sileceğim notun id'sini aldım. bir hata almadığım durumda buraya o değer gelecek.
       // action.payload silinen notun id değeridir.
-      console.log(action.payload)
       state.notes = state.notes.filter(note => note._id !== action.payload);
     }
   },
 });
 
-export const { setNotes, addNoteToState, editNoteToState, deleteNoteToState } = notesReducer.actions;
+export const { getNotes, addNoteToState, editNoteToState, deleteNoteToState } = notesReducer.actions;
 export default notesReducer.reducer;
