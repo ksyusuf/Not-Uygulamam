@@ -27,9 +27,9 @@ const EditNotePage = ({ note, onUpdate, categories }) => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 h-screen">
+    <div className="p-6 h-screen flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold mb-6">Notu Düzenle</h1>
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <input
           type="text"
           placeholder="Başlık"
@@ -49,16 +49,16 @@ const EditNotePage = ({ note, onUpdate, categories }) => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option value="" disabled>Seçilen Kategori</option>
+          <option value="" disabled>Kategori Seçin</option>
           {categories.map(cat => (
             <option key={cat._id} value={cat.name}>{cat.name}</option>
           ))}
         </select>
         <button
-          className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-200"
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-200 w-full"
           onClick={handleUpdate}
         >
-          Notu Güncelle
+          Güncelle
         </button>
       </div>
     </div>
