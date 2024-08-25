@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# Not Tutma Uygulaması - Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bu proje, <b>React</b> kullanılarak geliştirilmiş bir not tutma uygulamasının frontend kısmıdır. TailwindCSS ile stil verilmiş, Axios ile backend haberleşmesini sağlayan ve Redux ile State Management gerçekleştiren bir arayüz sunmaktadır. Proje localhost'unuzun 3000 portunda çalışmaktadır.
 
-## Available Scripts
+## Gereksinimler
 
-In the project directory, you can run:
+* Node.js (v14.x veya üzeri)
+* NPM (Node Package Manager) veya Yarn
 
-### `npm start`
+## Kullanılan Teknolojiler
+* ReactJS
+* Redux
+* Axios
+* TailwindCSS (CDN)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Kurulum
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Repository Klonlanması (Eğer klonlamadıysanız)
 
-### `npm test`
+İlk olarak, projeyi yerel bilgisayarınıza klonlayın.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```conding
+git clone https://github.com/ksyusuf/percon.io-case-study.git
+cd percon.io-case-study/client
+```
 
-### `npm run build`
+### 2. Bağımlılıkların Yüklenmesi
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Gerekli olan bağımlılıkları yükleyin. Projenin client dizininde olduğunuzdan emin olun.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```conding
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3. Uygulamanın Başlatılması
+Projeyi çalıştırmak için aşağıdaki komutu kullanabilirsiniz.
+Server kurulumu ve çalıştırılmasını unutmayın.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```conding
+npm start
+```
