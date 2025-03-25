@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "seed": "cross-env NODE_ENV=development node seed-one-time-relationship.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mongoose": "^8.5.3"
+    "mongoose": "^8.5.3",
+    "cross-env": "^7.0.3"
   }
 }

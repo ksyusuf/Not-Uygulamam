@@ -2,7 +2,8 @@ import { getNotes, addNoteToState, editNoteToState, deleteNoteToState} from './n
 import { setCategories } from './categoriesReducter';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/notes';
+// API URL'yi environment variable'dan al veya default değer kullan
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/notes';
 
 export const fetchNotesAndCategories = () => async (dispatch) => {
   try {
