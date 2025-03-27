@@ -37,8 +37,22 @@ mongoose.connect(mongoURI, {
   });
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+const whitelist = [
+  'https://not-uygulamasi-client.vercel.app',
+  'http://localhost:3000'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS Policy Violation'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 // Routes
 const noteRouter = require('./routes/notes');

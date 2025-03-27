@@ -17,5 +17,10 @@
     "express": "^4.19.2",
     "mongoose": "^8.5.3",
     "cross-env": "^7.0.3"
+  },
+  "env": {
+    "API_URL": "Sunucu API'sinin URL'si",
+    "MONGODB_URI": "MongoDB bağlantı dizesi",
+    "OTHER_ENV_VAR": "Diğer gerekli environment variable'lar"
   }
 }
