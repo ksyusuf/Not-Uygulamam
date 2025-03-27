@@ -36,23 +36,31 @@ mongoose.connect(mongoURI, {
     process.exit(1);
   });
 
-// Middleware
-const whitelist = [
+// CORS ayarları (production için)
+const allowedOrigins = [
   'https://not-uygulamasi-client.vercel.app',
-  'http://localhost:3000'
+  'http://localhost:3000' // Geliştirme ortamı için
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('CORS Policy Violation'));
+      callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
+
+// Test endpoint'i
+app.get('/api/test', (req, res) => {
+  res.json({ message: "CORS çalışıyor!" });
+});
 
 // Routes
 const noteRouter = require('./routes/notes');
