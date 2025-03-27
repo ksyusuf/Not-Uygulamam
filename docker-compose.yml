@@ -5,12 +5,11 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
+    restart: always
+    command: mongod --bind_ip_all --quiet
+    environment:
+      - MONGO_INITDB_DATABASE=notlar
+      - MONGODB_LOG_LEVEL=warning
 
   server:
     build:
@@ -19,8 +18,7 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      mongodb:
-        condition: service_healthy
+      - mongodb
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/notlar
       - NODE_ENV=production
@@ -30,6 +28,7 @@ services:
       - ./server:/app
       - /app/node_modules
     command: ["npm", "start"]
+    restart: always
 
   client:
     build:
@@ -44,6 +43,7 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
+    restart: always
 
 volumes:
   mongodb_data:
