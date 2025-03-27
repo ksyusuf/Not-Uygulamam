@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(express.json());
+
 // MongoDB bağlantı URI'si - Daha esnek ve güvenli bir yaklaşım
 const getMongoURI = () => {
   // Önce environment variable'ı kontrol et
@@ -55,12 +57,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
 
-// Test endpoint'i
-app.get('/api/test', (req, res) => {
-  res.json({ message: "CORS çalışıyor!" });
-});
 
 // Routes
 const noteRouter = require('./routes/notes');
@@ -71,6 +68,16 @@ app.use('/api/notes', noteRouter);
 
 app.get('/', (req, res) => {
   res.send('Selamlar!');
+});
+
+// Test endpoint'i
+app.get('/api/test', (req, res) => {
+  res.json({ message: "CORS çalışıyor!" });
+});
+
+// Test Endpoint'i (Mutlaka ekleyin)
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'active', version: '1.0.0' });
 });
 
 app.listen(port, () => {
