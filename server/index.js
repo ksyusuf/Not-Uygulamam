@@ -1,11 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const app = express();
 const port = process.env.PORT || 5000;
-
-app.use(express.json());
 
 // MongoDB bağlantı URI'si - Daha esnek ve güvenli bir yaklaşım
 const getMongoURI = () => {
@@ -14,15 +12,16 @@ const getMongoURI = () => {
     return process.env.MONGODB_URI;
   }
 
-  // Environment'a göre host seçimi
+  // Environment'a göre host seçimi. proccess, .env içe aktarımını beklemez.
   const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'mongodb';
   const port = process.env.MONGODB_PORT || '27017';
   const dbName = process.env.MONGODB_DB_NAME || 'notlar';
-
   return `mongodb://${host}:${port}/${dbName}`;
 };
 
-const mongoURI = getMongoURI();
+let mongoURI = getMongoURI();
+
+// mongoURI = 'mongodb://localhost:27017/notlar';
 console.log('Connecting to MongoDB at:', mongoURI);
 
 // MongoDB bağlantısı
@@ -56,6 +55,8 @@ const corsOptions = {
   allowedHeaders: ['Content-Type']
 };
 
+const app = express();
+app.use(express.json());
 app.use(cors(corsOptions));
 
 

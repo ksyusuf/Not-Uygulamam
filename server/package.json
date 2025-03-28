@@ -14,13 +14,9 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
     "express": "^4.19.2",
-    "mongoose": "^8.5.3",
-    "cross-env": "^7.0.3"
-  },
-  "env": {
-    "API_URL": "Sunucu API'sinin URL'si",
-    "MONGODB_URI": "MongoDB bağlantı dizesi",
-    "OTHER_ENV_VAR": "Diğer gerekli environment variable'lar"
+    "mongoose": "^8.5.3"
   }
 }
