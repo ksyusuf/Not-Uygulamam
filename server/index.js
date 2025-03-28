@@ -58,28 +58,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Test endpoint'i
-app.get('/api/test', (req, res) => {
-  res.json({ message: "CORS çalışıyor!" });
+app.get('/', (req, res) => {
+  res.send('Selamlar!');
 });
 
-// Routes
+// Notes
 const noteRouter = require('./routes/notes');
 // bu şekilde bir ana dizin altında yapılabilecek işlemlerin olduğu bir url oluşturduk.
 app.use('/api/notes', noteRouter);
 // bu dizinin ana erişim kısmını düzenledik
 // bu dizin altındaki route'lara erişim sağlayıp işlem yapabileceğiz.
 
-app.get('/', (req, res) => {
-  res.send('Selamlar!');
+// Test Endpoint'i (Mutlaka ekleyin)
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'active', version: '1.0.0' });
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
-});
-
-
-// Test Endpoint'i (Mutlaka ekleyin)
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'active', version: '1.0.0' });
 });

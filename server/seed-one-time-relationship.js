@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const Note = require('./models/Note');  // Not modelini import ediyoruz
 const Category = require('./models/Category');  // Kategori modelini import ediyoruz
+require('dotenv').config();
 
 /// docker desktopta server konteyner'ına gidip
 /// npm run seed
 /// yazıp konteyner içerisindeki veritbanını besleyebiliyoruz.
 /// package.json içerisinde seed scripti tanımadığımız için bu gerçekleştirilebiliyor.
+/// docker-compose ile çalışıyorsan dışarıdan şu şekilde müdahale edebilirsin;
+/// docker-compose exec server node seed-one-time-relationship.js
 
 // MongoDB bağlantı URI'si - Daha esnek ve güvenli bir yaklaşım
 const getMongoURI = () => {
@@ -23,7 +26,6 @@ const getMongoURI = () => {
 };
 
 let mongoURI = getMongoURI();
-mongoURI = "mongodb+srv://deneme-user:deneme-user-pass@notlar.mlgi8yn.mongodb.net/notlar?retryWrites=true&w=majority&appName=notlar"
 console.log('Connecting to MongoDB at:', mongoURI);
 
 // MongoDB bağlantısı
