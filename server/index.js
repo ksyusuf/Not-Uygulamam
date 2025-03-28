@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
+const app = express();
+app.use(express.json());
+app.use(cors(corsOptions));
 
 // MongoDB bağlantı URI'si - Daha esnek ve güvenli bir yaklaşım
 const getMongoURI = () => {
@@ -39,26 +42,10 @@ mongoose.connect(mongoURI, {
     process.exit(1);
   });
 
-// CORS ayarları (production için)
-const allowedOrigins = [
-  'https://not-uygulamasi-client.vercel.app',
-  'http://localhost:3000' // Geliştirme ortamı için
-];
-
-const corsOptions = {
-  origin: [
-    'https://not-uygulamasi-client.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:5000'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-};
-
-const app = express();
-app.use(express.json());
-app.use(cors(corsOptions));
+  app.use(cors({
+    origin: '*', // Tüm domainlere izin ver (Production'da spesifik domainler kullanın)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // İzin verilen HTTP metodları
+  }));
 
 
 // Routes
