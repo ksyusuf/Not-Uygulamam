@@ -1,16 +1,12 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }],
+  "headers": [
     {
-      "src": "server/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server/index.js",
-      "methods": ["GET", "POST", "PUT", "DELETE"]
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "https://not-uygulamasi-client.vercel.app" },
+        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+      ]
     }
   ]
 }
