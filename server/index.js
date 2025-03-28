@@ -19,6 +19,7 @@ const getMongoURI = () => {
   return `mongodb://${host}:${port}/${dbName}`;
 };
 
+
 let mongoURI = getMongoURI();
 
 // mongoURI = 'mongodb://localhost:27017/notlar';
