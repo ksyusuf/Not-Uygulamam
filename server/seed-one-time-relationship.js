@@ -22,7 +22,8 @@ const getMongoURI = () => {
   return `mongodb://${host}:${port}/${dbName}`;
 };
 
-const mongoURI = getMongoURI();
+let mongoURI = getMongoURI();
+// mongoURI = "mongodb+srv://deneme-user:deneme-user-pass@notlar.mlgi8yn.mongodb.net/notlar?retryWrites=true&w=majority&appName=notlar"
 console.log('Connecting to MongoDB at:', mongoURI);
 
 // MongoDB bağlantısı
