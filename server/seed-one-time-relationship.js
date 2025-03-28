@@ -23,7 +23,7 @@ const getMongoURI = () => {
 };
 
 let mongoURI = getMongoURI();
-// mongoURI = "mongodb+srv://deneme-user:deneme-user-pass@notlar.mlgi8yn.mongodb.net/notlar?retryWrites=true&w=majority&appName=notlar"
+mongoURI = "mongodb+srv://deneme-user:deneme-user-pass@notlar.mlgi8yn.mongodb.net/notlar?retryWrites=true&w=majority&appName=notlar"
 console.log('Connecting to MongoDB at:', mongoURI);
 
 // MongoDB bağlantısı
