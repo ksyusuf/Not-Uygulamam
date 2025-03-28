@@ -1,12 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config();
 
-const port = process.env.PORT || 5000;
 const app = express();
-app.use(express.json());
-app.use(cors(corsOptions));
+const port = process.env.PORT || 5000;
 
 // MongoDB bağlantı URI'si - Daha esnek ve güvenli bir yaklaşım
 const getMongoURI = () => {
@@ -15,18 +12,15 @@ const getMongoURI = () => {
     return process.env.MONGODB_URI;
   }
 
-  // bu kısım şimdilik çalışmaz çünkü MONGODB_URI hep var olacak.
-  // Environment'a göre host seçimi. proccess, .env içe aktarımını beklemez.
+  // Environment'a göre host seçimi
   const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'mongodb';
   const port = process.env.MONGODB_PORT || '27017';
   const dbName = process.env.MONGODB_DB_NAME || 'notlar';
+
   return `mongodb://${host}:${port}/${dbName}`;
 };
 
-let mongoURI = getMongoURI();
-
-// mongoURI = 'mongodb://localhost:27017/notlar';
-// mongoURI = 'mongodb+srv://deneme-user:deneme-user-pass@notlar.mlgi8yn.mongodb.net/notlar?retryWrites=true&w=majority&appName=notlar';
+const mongoURI = getMongoURI();
 console.log('Connecting to MongoDB at:', mongoURI);
 
 // MongoDB bağlantısı
@@ -42,11 +36,31 @@ mongoose.connect(mongoURI, {
     process.exit(1);
   });
 
-  app.use(cors({
-    origin: '*', // Tüm domainlere izin ver (Production'da spesifik domainler kullanın)
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // İzin verilen HTTP metodları
-  }));
+// CORS ayarları (production için)
+const allowedOrigins = [
+  'https://not-uygulamasi-client.vercel.app',
+  'http://localhost:3000' // Geliştirme ortamı için
+];
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// Test endpoint'i
+app.get('/api/test', (req, res) => {
+  res.json({ message: "CORS çalışıyor!" });
+});
 
 // Routes
 const noteRouter = require('./routes/notes');
@@ -59,16 +73,12 @@ app.get('/', (req, res) => {
   res.send('Selamlar!');
 });
 
-// Test endpoint'i
-app.get('/api/test', (req, res) => {
-  res.json({ message: "CORS çalışıyor!" });
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
+
 
 // Test Endpoint'i (Mutlaka ekleyin)
 app.get('/api/health', (req, res) => {
   res.json({ status: 'active', version: '1.0.0' });
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });
