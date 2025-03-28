@@ -12,13 +12,13 @@ const getMongoURI = () => {
     return process.env.MONGODB_URI;
   }
 
+  // bu kısım şimdilik çalışmaz çünkü MONGODB_URI hep var olacak.
   // Environment'a göre host seçimi. proccess, .env içe aktarımını beklemez.
   const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'mongodb';
   const port = process.env.MONGODB_PORT || '27017';
   const dbName = process.env.MONGODB_DB_NAME || 'notlar';
   return `mongodb://${host}:${port}/${dbName}`;
 };
-
 
 let mongoURI = getMongoURI();
 
