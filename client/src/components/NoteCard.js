@@ -24,7 +24,8 @@ const NoteCard = ({ note, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="border rounded-2xl p-6 mb-4 bg-white shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between">
+    <div className="border rounded-2xl p-6 mb-4 bg-white shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+    data-testid={`note-card-${note._id}`}>
       <div>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold text-gray-800">{note.header}</h2>
