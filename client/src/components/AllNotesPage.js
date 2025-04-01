@@ -32,7 +32,7 @@ const AllNotesPage = ({ notes, categories, onAddNote, onEditNote, onDeleteNote }
           <div className="flex-1 m-6 ml-3 overflow-y-auto">
             {sortedNotes.map(note => (
               <NoteCard 
-                key={note.id} 
+                key={note._id} 
                 note={note} 
                 onEdit={onEditNote} 
                 onDelete={onDeleteNote} 
