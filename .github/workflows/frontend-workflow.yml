@@ -40,22 +40,29 @@ jobs:
         working-directory: ./client
         run: npm test -- --ci --updateSnapshot=false
 
-      - name: Deploy to Vercel (only if tests pass)
-        if: success()  # Bu adım sadece testler başarılı olduğunda çalışır
-        run: |
-          npm install -g vercel
-          vercel --prod --domain https://not-uygulamasi-client.vercel.app/ --token ${{ secrets.VERCEL_TOKEN }} --confirm
 
   Deploy-Preview:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - name: Get Vercel Project Info
+        run: |
+          project_name=$(curl -s "https://api.vercel.com/v9/projects/${{ secrets.VERCEL_PROJECT_ID }}" \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_API_TOKEN }}" \
+            | jq -r .name)
+          echo "Vercel Project Name: $project_name"
+          echo "PROJECT_NAME=$project_name" >> $GITHUB_ENV  # Set the environment variable
+
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+        
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --alias "${{ env.PROJECT_NAME }}-preview.vercel.app"
