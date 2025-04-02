@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,7 +20,6 @@ jobs:
 
       - name: Node.js Kurulumu
         uses: actions/setup-node@v4
-        
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -41,4 +39,5 @@ jobs:
       - name: Deploy to Vercel (only if tests pass)
         if: success()  # Bu adım sadece testler başarılı olduğunda çalışır
         run: |
-          vercel --prod
+          npm install -g vercel
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
