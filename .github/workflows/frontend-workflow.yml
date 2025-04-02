@@ -3,7 +3,7 @@ name: Frontend CI Denemesi
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  
+
 on:
   push:
     branches: [ "main" ]
@@ -44,7 +44,7 @@ jobs:
         if: success()  # Bu adım sadece testler başarılı olduğunda çalışır
         run: |
           npm install -g vercel
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
+          vercel --prod --domain not-uygulamasi-client.vercel.app --token ${{ secrets.VERCEL_TOKEN }} --confirm
 
   Deploy-Preview:
     needs: [build]
