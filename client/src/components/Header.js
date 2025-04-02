@@ -8,7 +8,7 @@ const Header = ({ onAddNote }) => (
         className="bg-blue-600 text-white px-5 py-2 rounded-full shadow-lg hover:bg-blue-700 transition duration-200"
         onClick={onAddNote}
       >
-        + Yeni Not
+        + Yeni Not Ekle
       </button>
     </div>
   </header>
