@@ -1,4 +1,4 @@
-name: Frontned CI Denemesi
+name: Frontend CI Denemesi
 
 on:
   push:
@@ -37,3 +37,8 @@ jobs:
       - name: Testleri Çalıştır
         working-directory: ./client
         run: npm test -- --ci --updateSnapshot=false
+
+      - name: Deploy to Vercel (only if tests pass)
+        if: success()  # Bu adım sadece testler başarılı olduğunda çalışır
+        run: |
+          vercel --prod
