@@ -1,0 +1,39 @@
+name: Frontned CI Denemesi
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - name: Reponun Son Halini Çek
+        uses: actions/checkout@v4
+
+      - name: Node.js Kurulumu
+        uses: actions/setup-node@v4
+        
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Bağımlılıkları Yükle
+        working-directory: ./client
+        run: npm ci
+
+      - name: Build Al
+        working-directory: ./client
+        run: npm run build
+
+      - name: Testleri Çalıştır
+        working-directory: ./client
+        run: npm test -- --ci --updateSnapshot=false
