@@ -34,7 +34,9 @@ jobs:
 
       - name: Build Al
         working-directory: ./client
-        run: npm run build
+        run: |
+          npm run build
+          ls -la build/static
 
       # şimdilik testleri çalıştırmıyoruz
       # - name: Testleri Çalıştır
