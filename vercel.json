@@ -1,15 +1,12 @@
 {
-    "version": 2,
     "builds": [
       {
-        "src": "package.json",
+        "src": "client/package.json",
         "use": "@vercel/node"
-      }
-    ],
-    "routes": [
+      },
       {
-        "src": "/(.*)",
-        "dest": "/index.html"
+        "src": "server/package.json",
+        "use": "@vercel/node"
       }
     ],
     "git": {
