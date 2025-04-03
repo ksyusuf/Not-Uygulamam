@@ -14,7 +14,7 @@
   ],
   "env": {
     "CORS_ORIGIN": "https://not-uygulamasi-client.vercel.app",
-    "MONGODB_URI": "@mongodb_uri",
+    "MONGODB_URI": "@MONGODB_URI",
     "NODE_ENV": "production"
   },
   "git": {
