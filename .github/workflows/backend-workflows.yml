@@ -1,4 +1,4 @@
-name: Backend CI/CD Pipeline
+name: Backend CI Denemesi
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_SERVER_ORG_ID }}
@@ -7,42 +7,55 @@ env:
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [18.x]
 
     steps:
-      - name: Checkout repository
+      - name: Reponun Son Halini Çek
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Node.js Kurulumu
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Install dependencies and build
+      - name: Bağımlılıkları Yükle
         working-directory: ./server
-        run: |
-          npm ci
-          npm run
+        run: npm ci
 
+      - name: Build Al
+        working-directory: ./server
+        run: npm run
+
+    # -- henüz testler yok
+    #   - name: Testleri Çalıştır
+    #     working-directory: ./server
+    #     run: npm test -- --ci --updateSnapshot=false
+
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Pull Vercel environment info
+      - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Add CORS environment variable
+      - name: Add CORS Environment Variable
         run: |
           vercel env add ALLOWED_ORIGIN "${{ secrets.ALLOWED_ORIGIN || 'https://not-uygulamasi-client.vercel.app' }}" production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build with Vercel
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Production
         run: |
