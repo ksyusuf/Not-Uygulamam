@@ -46,7 +46,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Get Vercel Project Info
+      - name: Get Vercel Project Info.
         run: |
           project_name=$(curl -s "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID" \
             -H "Authorization: Bearer ${{ secrets.VERCEL_API_TOKEN }}" \
