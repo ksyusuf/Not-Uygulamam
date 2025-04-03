@@ -2,7 +2,7 @@ name: Backend CI Denemesi
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_SERVER_PROJECT_ID }}
 
 on:
   push:
@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Get Vercel Project Info
         run: |
-          project_name=$(curl -s "https://api.vercel.com/v9/projects/${{ secrets.VERCEL_PROJECT_ID }}" \
+          project_name=$(curl -s "https://api.vercel.com/v9/projects/${{ secrets.VERCEL_SERVER_PROJECT_ID }}" \
             -H "Authorization: Bearer ${{ secrets.VERCEL_API_TOKEN }}" \
             | jq -r .name)
           echo "Vercel Project Name: $project_name"
