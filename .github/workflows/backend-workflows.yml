@@ -29,7 +29,7 @@ jobs:
         working-directory: ./server
         run: |
           npm ci
-          npm run build
+          npm run
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
