@@ -14,6 +14,15 @@ const api = axios.create({
   }
 });
 
+// Response interceptor ekle
+api.interceptors.response.use(
+  response => response,
+  error => {
+    console.error('API Error:', error);
+    return Promise.reject(error);
+  }
+);
+
 export const fetchNotesAndCategories = () => async (dispatch) => {
   try {
     const response = await api.get('/');
@@ -22,7 +31,7 @@ export const fetchNotesAndCategories = () => async (dispatch) => {
     dispatch(setCategories(categories));
   } catch (error) {
     console.error('Error fetch notes and categories:', error);
-    throw error; // Hata yönetimi için hatayı yukarı fırlat
+    throw error;
   }
 };
 

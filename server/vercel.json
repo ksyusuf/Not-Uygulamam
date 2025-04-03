@@ -14,14 +14,17 @@
       "headers": {
         "Access-Control-Allow-Origin": "https://not-uygulamasi-client.vercel.app",
         "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true"
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Expose-Headers": "Set-Cookie",
+        "Access-Control-Max-Age": "86400"
       }
     }
   ],
   "env": {
     "CORS_ORIGIN": "https://not-uygulamasi-client.vercel.app",
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "ALLOWED_ORIGIN": "https://not-uygulamasi-client.vercel.app"
   },
   "git": {
     "deploymentEnabled": false
