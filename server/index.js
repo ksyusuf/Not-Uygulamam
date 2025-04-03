@@ -38,10 +38,12 @@ mongoose.connect(mongoURI, {
   });
 
 // CORS ayarları (production için)
-const allowedOrigins = [
-  'https://not-uygulamasi-client.vercel.app',
-  'http://localhost:3000' // Geliştirme ortamı için
-];
+const allowedOrigins = process.env.ALLOWED_ORIGIN ? 
+  process.env.ALLOWED_ORIGIN.split(',') : 
+  [
+    'https://not-uygulamasi-client.vercel.app',
+    'http://localhost:3000' // Geliştirme ortamı için
+  ];
 
 const corsOptions = {
   origin: function (origin, callback) {
