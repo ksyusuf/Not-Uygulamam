@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
     }
   ],
   "routes": [
@@ -14,5 +17,8 @@
   ],
   "git": {
     "deploymentEnabled": false
+  },
+  "env": {
+    "NODE_ENV": "production"
   }
 }

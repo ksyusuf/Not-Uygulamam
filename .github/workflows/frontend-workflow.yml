@@ -41,7 +41,6 @@ jobs:
       #   working-directory: ./client
       #   run: npm test -- --ci --updateSnapshot=false
 
-
   Deploy-Preview:
     needs: [build]
     runs-on: ubuntu-latest
@@ -54,7 +53,7 @@ jobs:
           echo "Vercel Project Name: $project_name"
           echo "PROJECT_NAME=$project_name" >> $GITHUB_ENV  # Set the environment variable
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
         
