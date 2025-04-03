@@ -19,7 +19,10 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/index.html",
+      "headers": {
+        "Set-Cookie": "SameSite=None; Secure"
+      }
     }
   ],
   "git": {
