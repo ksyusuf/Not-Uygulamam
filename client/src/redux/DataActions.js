@@ -5,32 +5,43 @@ import axios from 'axios';
 // API URL'yi environment variable'dan al veya default değer kullan
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/notes';
 
+// Axios instance oluştur
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
 export const fetchNotesAndCategories = () => async (dispatch) => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await api.get('/');
     const { notes, categories } = response.data;
     dispatch(getNotes(notes));
     dispatch(setCategories(categories));
   } catch (error) {
     console.error('Error fetch notes and categories:', error);
+    throw error; // Hata yönetimi için hatayı yukarı fırlat
   }
 };
 
 export const addNote = (note) => async (dispatch) => {
   try {
-    const response = await axios.post(API_URL, note);
     // state içerisine eklene notun kategorisi string değil obje olması gerekiyor.
     // api üzerinden dönen notun kategori değeri de bir obje olduğu için bunu state'e ekledik.
+    const response = await api.post('/', note);
     dispatch(addNoteToState(response.data));
   } catch (error) {
     console.error('Error adding note:', error);
+    throw error;
   }
 };
 
 export const editNote = (gelen_not) => async (dispatch) => {
   try {
-    const response = await axios.patch(`${API_URL}/${gelen_not._id}`, gelen_not);
-    dispatch(editNoteToState(response.data))
+    const response = await api.patch(`/${gelen_not._id}`, gelen_not);
+    dispatch(editNoteToState(response.data));
   } catch (error) {
     console.error('Error updating note:', error);
     throw error;
@@ -39,10 +50,9 @@ export const editNote = (gelen_not) => async (dispatch) => {
 
 export const deleteNote = (note) => async (dispatch) => {
   try {
-    const deleting_note_id = note._id;
-    await axios.delete(`${API_URL}/${note._id}`);
+    await api.delete(`/${note._id}`);
     // sunucu tarafından bir hata olmadığı sürece state için id gönderebiliriz.
-    dispatch(deleteNoteToState(deleting_note_id))
+    dispatch(deleteNoteToState(note._id));
   } catch (error) {
     console.error('Error deleting note:', error);
     throw error;

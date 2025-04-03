@@ -1,0 +1,76 @@
+name: Backend CI
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_SERVER_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_SERVER_PROJECT_ID }}
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Reponun Son Halini Çek
+        uses: actions/checkout@v4
+
+      - name: Node.js Kurulumu
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Bağımlılıkları Yükle
+        working-directory: ./server
+        run: npm ci
+
+      - name: Build Al
+        working-directory: ./server
+        run: npm run
+
+    # -- henüz testler yok
+    #   - name: Testleri Çalıştır
+    #     working-directory: ./server
+    #     run: npm test -- --ci --updateSnapshot=false
+
+
+  Deploy-Preview:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Vercel Project Info
+        run: |
+          project_name=$(curl -s "https://api.vercel.com/v9/projects/${{ secrets.VERCEL_SERVER_PROJECT_ID }}" \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_API_TOKEN }}" \
+            | jq -r .name)
+          echo "Vercel Project Name: $project_name"
+          echo "PROJECT_NAME=$project_name" >> $GITHUB_ENV  # Set the environment variable
+
+      - uses: actions/checkout@v4
+      
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+        
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Add Environment Variables
+        run: |
+          vercel env add ALLOWED_ORIGIN "https://not-uygulamasi-client.vercel.app" --token=${{ secrets.VERCEL_TOKEN }}
+          vercel env add NODE_ENV "production" --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --local-config=server/vercel.json --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: |
+          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" not-uygulamasi-server.vercel.app
