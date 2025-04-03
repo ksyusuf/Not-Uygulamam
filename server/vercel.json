@@ -15,9 +15,7 @@
         "Access-Control-Allow-Origin": "https://not-uygulamasi-client.vercel.app",
         "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Expose-Headers": "Set-Cookie",
-        "Access-Control-Max-Age": "86400"
+        "Access-Control-Allow-Credentials": "true"
       }
     }
   ],

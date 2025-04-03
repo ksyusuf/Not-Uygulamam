@@ -38,10 +38,9 @@ jobs:
           npm run build
           ls -la build/static
 
-      # şimdilik testleri çalıştırmıyoruz
-      # - name: Testleri Çalıştır
-      #   working-directory: ./client
-      #   run: npm test -- --ci --updateSnapshot=false
+      - name: Testleri Çalıştır
+        working-directory: ./client
+        run: npm test -- --ci --updateSnapshot=false
 
   Deploy-Preview:
     needs: [build]

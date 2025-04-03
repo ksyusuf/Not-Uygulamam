@@ -12,17 +12,11 @@
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
+      "src": "/static/(.*)"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html",
-      "headers": {
-        "Set-Cookie": "SameSite=None; Secure"
-      }
+      "dest": "/index.html"
     }
   ],
   "git": {
