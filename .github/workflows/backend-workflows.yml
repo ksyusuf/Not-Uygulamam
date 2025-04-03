@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Get Vercel Project Info
         run: |
-          project_name=$(curl -s "https://api.vercel.com/v9/projects/${{ secrets.VERCEL_SERVER_PROJECT_ID }}" \
+          project_name=$(curl -s "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID" \
             -H "Authorization: Bearer ${{ secrets.VERCEL_API_TOKEN }}" \
             | jq -r .name)
           echo "Vercel Project Name: $project_name"
