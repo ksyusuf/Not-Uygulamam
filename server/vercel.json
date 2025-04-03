@@ -13,7 +13,7 @@
     }
   ],
   "env": {
-    "CORS_ORIGIN": "not-uygulamasi-client.vercel.app"
+    "CORS_ORIGIN": "https://not-uygulamasi-client.vercel.app"
   },
   "git": {
     "deploymentEnabled": false
