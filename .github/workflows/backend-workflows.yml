@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Al
         working-directory: ./server
-        run: npm run build
+        run: npm run
 
     # -- henüz testler yok
     #   - name: Testleri Çalıştır
