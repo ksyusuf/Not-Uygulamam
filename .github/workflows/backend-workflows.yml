@@ -67,4 +67,4 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" not-uygulamasi-server.vercel.app/
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" not-uygulamasi-server.vercel.app
