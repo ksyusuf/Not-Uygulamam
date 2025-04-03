@@ -12,6 +12,9 @@
       "dest": "index.js"
     }
   ],
+  "env": {
+    "CORS_ORIGIN": "not-uygulamasi-client.vercel.app"
+  },
   "git": {
     "deploymentEnabled": false
   }
