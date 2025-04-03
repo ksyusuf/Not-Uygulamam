@@ -2,18 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js",
+      "src": "server/package.json",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "src": "/api/(.*)",
+      "dest": "server/index.js"
     }
   ],
   "env": {
-    "CORS_ORIGIN": "https://not-uygulamasi-client.vercel.app"
+    "CORS_ORIGIN": "https://not-uygulamasi-client.vercel.app",
+    "MONGODB_URI": "@mongodb_uri",
+    "NODE_ENV": "production"
   },
   "git": {
     "deploymentEnabled": false
