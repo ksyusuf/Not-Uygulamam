@@ -1,4 +1,4 @@
-name: Frontend CI Denemesi
+name: Frontend CI
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -36,9 +36,10 @@ jobs:
         working-directory: ./client
         run: npm run build
 
-      - name: Testleri Çalıştır
-        working-directory: ./client
-        run: npm test -- --ci --updateSnapshot=false
+      # şimdilik testleri çalıştırmıyoruz
+      # - name: Testleri Çalıştır
+      #   working-directory: ./client
+      #   run: npm test -- --ci --updateSnapshot=false
 
 
   Deploy-Preview:

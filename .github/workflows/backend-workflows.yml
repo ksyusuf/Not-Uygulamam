@@ -1,4 +1,4 @@
-name: Backend CI Denemesi
+name: Backend CI
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_SERVER_ORG_ID }}
