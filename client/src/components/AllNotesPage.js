@@ -17,10 +17,10 @@ const AllNotesPage = ({ notes, categories, onAddNote, onEditNote, onDeleteNote }
   const sortedNotes = [...filteredNotes].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row min-h-screen">
       <main className="flex-1 flex flex-col">
         <Header onAddNote={onAddNote} />
-        <div className="flex flex-1">
+        <div className="flex flex-col md:flex-row flex-1">
           <CategorySidebar
             categories={categories}
             selectedCategory={selectedCategory}
@@ -29,7 +29,7 @@ const AllNotesPage = ({ notes, categories, onAddNote, onEditNote, onDeleteNote }
             // mevcutta hangi kategori sayfasında olduğunun anlaşılması içindir.
             onSelectCategory={setSelectedCategory}
           />
-          <div className="flex-1 m-6 ml-3 overflow-y-auto">
+          <div className="flex-1 mx-4 md:mx-6 md:ml-3 mt-4 overflow-y-auto">
             {sortedNotes.map(note => (
               <NoteCard 
                 key={note._id} 
