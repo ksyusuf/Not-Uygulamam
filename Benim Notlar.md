@@ -7,6 +7,8 @@
 
 - docker-compose down --volume: Ana dizinde çalıştırarak konteynerizasyonunu tamamen sıfırlayarak silersin.
 
+- docker-compose ile ayağa kaldırdığın yapının veritabanını beslemek için: docker-compose exec server npm run seed
+
 # Testing
 
     Test işlemi jest çerçevesinde gerçekleşitiriliyor. Henüz sadece Frontend testleri mevcut. React Testing Library ile basit test denemeleri yapıldı ve entegre edildi.
@@ -17,7 +19,7 @@
 
 
 # Deployment on Vercel with Github Acitons
-    Workflows vercel deployment yaptığın zaman iletişim kuracak servislerin için *vercel deployment protection* ayarını kapatmalısın. aksi takdirde cors hatası alıyorsun.
+    ❗Workflows vercel deployment yaptığın zaman iletişim kuracak servislerin için *vercel deployment protection* ayarını kapatmalısın. aksi takdirde cors hatası alıyorsun.❗
 
     Her servisi bağımsız olması açısından ayrı yapılandırma dosyaları ile barındırıyorum. vercel.json ile yapılandırma ayarlarını inceleyebilirsin.
 
@@ -35,11 +37,39 @@ Bir servis için elinde olması gereken değişkenler şunlardır;
 
 * __VERCEL_ORG_ID__: vercel link ile edineceksin.
 
-
 ### vercel link
     Login olup çalışma yapacağın projeyi seçeceksin. mevcut projeni seçip ilerleyeceksin. yanlışlıkla yeni proje oluşturabilirsin. işlemler doğru yapılınca ilgili servisin olduğu dizinde .vercel->project.json oluşturacak ve onun içerisinde ilgili değişkenlerin olacak. bunlar github variables kısmına kaydedilir.
 
-## Vercel Variables for Frontend/Backend Service
+## Kurulan Workflow Yapısı
+### Akış:
+    A[Feature Branch] -->|PR| B[Staging Branch]
+    B -->|Tests Pass| C[Main Branch]
+    B -->|Use Staging Env| D[Staging Deployment]
+    C -->|Use Production Env| E[Production Deployment]
+---
+    - main        # Production ortamı
+    - staging     # Staging/Pre-production ortamı
+    - development # Development ortamı
+    - feature/*   # Özellik geliştirme branch'leri
+   
+---
+    Her özellik ayrı branch ile gönderilir. Deployment branchine (varsa) PR atılır.
+    ilk aşama kontrolleri/testleri burada yapılır.
+    Deployment testleri tamamlandığında staging branche PR açılır ve production ortamı kontrolleri/testleri yapılır.
+    staging branch kontrolleri sağlandıktan sonra main branch PR açılır,
+    burada, deployment işlemleri gerçekleşir.
+
+Mevcut proje içerisinde frontend ve backend projeleri barındırıldığı için deployment akışlşarı ayrı ayrı oluşturulmuştur.
+
+    Her akışın bir tetiklenme ayarı vardır.
+    Deployment akışları yalnızda main branch push işleminde gerçekleşmektedir.
+    staging PR açılması durumunda production ortamı testleri gerçekleştirilir.
+    development PR açılması durumunda development ortamı testleri gerçekleştirilir.
+---
+    Her branch için ilgili enviromentler hazırlanmalı ve proje içerisinde bu enviromentlerden okuma yapılacak modülerlik sağlanmalı. (Bizim projemin için genel olarak oluşturulmuş vaziyette -kontrol edilmeli-)
+
+
+# Vercel Variables for Frontend/Backend Service
 
     İlgili servisleri vercel'e yükledikten sonra environment değişkenlerini ya da global değişkenlerini vercel proje ayarlarındaki Environment Variables kısmından eklemelesin.
 
