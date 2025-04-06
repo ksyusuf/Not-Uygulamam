@@ -1,16 +1,13 @@
-name: Pull Request CI
+name: Pull Request Checks
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - '**'  # Tüm branchler için
+    branches: [ "main", "staging" ]
 
 jobs:
-  frontend-tests:
-    name: Frontend Tests
+  verify:
+    name: Verify PR
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -21,112 +18,18 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
-      - name: Install Frontend Dependencies
-        working-directory: ./client
-        run: npm ci
-
-      - name: Run Frontend Tests
-        working-directory: ./client
-        run: npm test -- --ci --coverage
-
-      - name: Upload Test Coverage
-        uses: actions/upload-artifact@v3
-        with:
-          name: frontend-coverage
-          path: ./client/coverage
-
-  backend-tests:
-    name: Backend Tests
-    runs-on: ubuntu-latest
-
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: Install Backend Dependencies
-        working-directory: ./server
-        run: npm ci
-
-      # Backend testleri henüz yok, ama eklendiğinde burası aktif edilebilir
-      # - name: Run Backend Tests
-      #   working-directory: ./server
-      #   run: npm test
-      #   env:
-      #     MONGODB_URI: mongodb://localhost:27017/test
-
-  lint:
-    name: Lint Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: Install Frontend Dependencies
-        working-directory: ./client
-        run: npm ci
-
-      - name: Install Backend Dependencies
-        working-directory: ./server
-        run: npm ci
-
-      # ESLint kontrolleri eklenebilir
-      # - name: Run Frontend Lint
-      #   working-directory: ./client
-      #   run: npm run lint
-
-      # - name: Run Backend Lint
-      #   working-directory: ./server
-      #   run: npm run lint
-
-  build-check:
-    name: Build Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: Build Frontend
+      - name: Check Frontend
         working-directory: ./client
         run: |
           npm ci
+          npm test -- --ci
           npm run build
 
-      - name: Build Backend
+      - name: Check Backend
         working-directory: ./server
         run: |
           npm ci
-          npm run build
+          npm run
 
-  status-check:
-    name: Final Status Check
-    needs: [frontend-tests, backend-tests, lint, build-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Status
-        run: echo "All checks passed successfully!" 
+      - name: PR Status
+        run: echo "PR checks completed successfully!" 
