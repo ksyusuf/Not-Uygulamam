@@ -37,30 +37,31 @@ mongoose.connect(mongoURI, {
     process.exit(1);
   });
 
-// CORS ayarları (production için)
-const allowedOrigins = process.env.ALLOWED_ORIGIN ? 
-  process.env.ALLOWED_ORIGIN.split(',') : 
-  [
-    'https://not-uygulamasi-client.vercel.app',
-    'http://localhost:3000' // Geliştirme ortamı için
-  ];
-
+// CORS ayarları
+const isDevelopment = process.env.NODE_ENV === 'development';
 const corsOptions = {
   origin: function (origin, callback) {
+    const allowedOrigins = isDevelopment 
+      ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+      : ['https://not-uygulamasi-client.vercel.app'];
+
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Selamlar!');
+  res.send('<h2>Selamlar!</h2>');
 });
 
 // Notes
