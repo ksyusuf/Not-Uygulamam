@@ -31,5 +31,7 @@ jobs:
 
       - name: Deploy Frontend to Vercel
         run: |
-          url="$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})"
+          url="$(vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }})"
+          # --prebuilt seçeneği, build edilmiş bir projeyi deploy etmek için kullanılır.
+          #   şu anda build işlemi vercel sunucularında yapılıyor.
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" not-uygulamasi-client.vercel.app 
