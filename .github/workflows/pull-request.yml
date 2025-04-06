@@ -1,16 +1,13 @@
-name: Pull Request CI
+name: Pull Request Checks
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - '**'  # Tüm branchler için
+    branches: [ "main", "staging" ]
 
 jobs:
-  frontend-tests:
-    name: Frontend Tests
+  verify:
+    name: Verify PR
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -21,54 +18,11 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
-      - name: Install Frontend Dependencies
-        working-directory: ./client
-        run: npm ci
-
-      - name: Run Frontend Tests
-        working-directory: ./client
-        run: npm test -- --ci --updateSnapshot=false
-
-  lint:
-    name: Lint Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: Install Frontend Dependencies
-        working-directory: ./client
-        run: npm ci
-
-      - name: Install Backend Dependencies
-        working-directory: ./server
-        run: npm ci
-
-  build-check:
-    name: Build Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: Build Frontend
+      - name: Check Frontend
         working-directory: ./client
         run: |
           npm ci
+          npm test -- --ci
           npm run build
 
       - name: Check Backend
@@ -76,11 +30,5 @@ jobs:
         run: |
           npm ci
           npm run
-
-  status-check:
-    name: Final Status Check
-    needs: [frontend-tests, lint, build-check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Status
-        run: echo "All checks passed successfully!" 
+      - name: PR Status
+        run: echo "PR checks completed successfully!" 
