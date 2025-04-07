@@ -12,10 +12,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env NODE_ENV=production react-scripts start",
+    "build": "cross-env NODE_ENV=production react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "cross-env NODE_ENV=development react-scripts start"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +42,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
     "jest": "^27.5.1"
   }
 }
