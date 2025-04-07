@@ -3,13 +3,6 @@ const Note = require('./models/Note');  // Not modelini import ediyoruz
 const Category = require('./models/Category');  // Kategori modelini import ediyoruz
 require('dotenv').config();
 
-/// docker desktopta server konteyner'ına gidip
-/// npm run seed
-/// yazıp konteyner içerisindeki veritbanını besleyebiliyoruz.
-/// package.json içerisinde seed scripti tanımadığımız için bu gerçekleştirilebiliyor.
-/// docker-compose ile çalışıyorsan dışarıdan şu şekilde müdahale edebilirsin;
-/// docker-compose exec server node seed-one-time-relationship.js
-
 // MongoDB bağlantı URI'si - Daha esnek ve güvenli bir yaklaşım
 const getMongoURI = () => {
   // Önce environment variable'ı kontrol et
